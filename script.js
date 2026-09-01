@@ -1,275 +1,110 @@
-function scrollToDashboard() {
+let totalIncome = 0;
+let totalExpenses = 0;
 
-    document
-        .getElementById("dashboard")
-        .scrollIntoView({
+// التعامل مع نموذج إضافة العمليات المالية
+document.getElementById('finance-form').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-            behavior: "smooth"
+    const type = document.getElementById('type').value;
+    const amount = parseFloat(document.getElementById('amount').value);
 
-        });
+    if (isNaN(amount) || amount <= 0) return;
 
-}
-
-
-async function analyzeMoney() {
-
-
-    const income =
-
-        document
-        .getElementById("income")
-        .value;
-
-
-    const expenses =
-
-        document
-        .getElementById("expenses")
-        .value;
-
-
-    if (
-
-        income === "" ||
-
-        expenses === ""
-
-    ) {
-
-
-        alert(
-
-            "Please enter income and expenses!"
-
-        );
-
-
-        return;
-
+    if (type === 'income') {
+        totalIncome += amount;
+    } else {
+        totalExpenses += amount;
     }
 
-
-    try {
-
-
-        const response =
-
-            await fetch(
-
-                "/analyze",
-
-                {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-
-                        "application/json"
-
-                    },
-
-
-                    body:
-
-                    JSON.stringify({
-
-                        income: income,
-
-                        expenses: expenses
-
-                    })
-
-                }
-
-            );
-
-
-        const data =
-
-            await response.json();
-
-
-        document
-            .getElementById("incomeDisplay")
-            .innerText =
-
-            data.income;
-
-
-        document
-            .getElementById("expensesDisplay")
-            .innerText =
-
-            data.expenses;
-
-
-        document
-            .getElementById("savingsDisplay")
-            .innerText =
-
-            data.savings;
-
-
-        document
-            .getElementById("score")
-            .innerText =
-
-            data.score;
-
-
-        document
-            .getElementById("message")
-            .innerText =
-
-            data.message;
-
-
-    }
-
-    catch (error) {
-
-
-        alert(
-
-            "Something went wrong!"
-
-        );
-
-
-    }
-
-
-}
-
-
-
-async function convertCurrency() {
-
-
-    const amount =
-
-        document
-        .getElementById("amount")
-        .value;
-
-
-    const fromCurrency =
-
-        document
-        .getElementById("fromCurrency")
-        .value;
-
-
-    const toCurrency =
-
-        document
-        .getElementById("toCurrency")
-        .value;
-
-
-    if (amount === "") {
-
-
-        alert(
-
-            "Please enter an amount!"
-
-        );
-
-
-        return;
-
-    }
-
-
-    const resultElement =
-
-        document
-        .getElementById(
-            "conversionResult"
-        );
-
-
-    resultElement.innerText =
-
-        "Converting...";
-
-
-    try {
-
-
-        const response =
-
-            await fetch(
-
-                "/convert",
-
-                {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-
-                        "application/json"
-
-                    },
-
-
-                    body:
-
-                    JSON.stringify({
-
-                        amount: amount,
-
-                        from: fromCurrency,
-
-                        to: toCurrency
-
-                    })
-
-                }
-
-            );
-
-
-        const data =
-
-            await response.json();
-
-
-        if (data.error) {
-
-
-            resultElement.innerText =
-
-                "Conversion failed!";
-
-
-            return;
-
+    updateDashboard();
+
+    // إعادة إرجاع الخانات للحالة الفارغة
+    document.getElementById('amount').value = '';
+    document.getElementById('category').value = '';
+});
+
+// تحديث القيم في لوحة التحكم وحساب المؤشر
+function updateDashboard() {
+    document.getElementById('total-income').textContent = `$${totalIncome}`;
+    document.getElementById('total-expenses').textContent = `$${totalExpenses}`;
+
+    const savings = totalIncome - totalExpenses;
+    document.getElementById('total-savings').textContent = `$${savings}`;
+
+    // حساب مؤشر الصحة المالية
+    let score = 0;
+    let message = "";
+
+    if (totalIncome > 0) {
+        const savingsRatio = (savings / totalIncome) * 100;
+        if (savingsRatio >= 30) {
+            score = 95;
+            message = "وضعك المالي ممتازة ومعدل الادخار عالي جداً! 🌟";
+        } else if (savingsRatio > 0) {
+            score = 70;
+            message = "وضعك المالي جيد، حاول تقليل المصاريف لزيادة الادخار. 👍";
+        } else {
+            score = 30;
+            message = "تحذير: مصاريفك تتجاوز دخلك الشهري! ⚠️";
         }
-
-
-        resultElement.innerText =
-
-            `${amount} ${fromCurrency} = 
-            ${data.result} ${toCurrency}`;
-
-
+    } else {
+        score = 0;
+        message = "أدخل بياناتك المالية لحساب المؤشر.";
     }
 
-    catch (error) {
+    document.getElementById('health-score').textContent = `${score} / 100`;
+    document.getElementById('health-message').textContent = message;
+}
 
+// حاسبة تحويل العملات المباشرة مع أسعار احتياطية ثابتة عند التعثر
+async function convertCurrency() {
+    const amountInput = document.getElementById('convert-amount').value;
+    const amount = parseFloat(amountInput);
+    const from = document.getElementById('from-currency').value;
+    const to = document.getElementById('to-currency').value;
+    const resultBox = document.getElementById('convert-result');
 
-        resultElement.innerText =
-
-            "Error connecting to server!";
-
+    if (isNaN(amount) || amount <= 0) {
+        resultBox.textContent = "يرجى إدخال مبلغ صحيح.";
+        return;
     }
 
+    if (from === to) {
+        resultBox.textContent = `${amount} ${from} = ${amount.toFixed(2)} ${to}`;
+        return;
+    }
 
+    resultBox.textContent = "جاري التحويل...";
+
+    // أسعار صرف احتياطية شائعة (Fallback rates)
+    const fallbackRates = {
+        'USD_ILS': 3.65,
+        'ILS_USD': 0.27,
+        'EUR_ILS': 3.95,
+        'ILS_EUR': 0.25,
+        'USD_EUR': 0.92,
+        'EUR_USD': 1.09
+    };
+
+    try {
+        const response = await fetch(`https://open.er-api.com/v6/latest/${from}`);
+        const data = await response.json();
+        
+        if (data && data.rates && data.rates[to]) {
+            const rate = data.rates[to];
+            const converted = (amount * rate).toFixed(2);
+            resultBox.textContent = `${amount} ${from} = ${converted} ${to}`;
+            return;
+        }
+        throw new Error("Rate not found");
+    } catch (error) {
+        // في حال تعثر الـ API يتم التحويل باستخدام أسعار الصرف الاحتياطية مباشرة
+        const key = `${from}_${to}`;
+        if (fallbackRates[key]) {
+            const converted = (amount * fallbackRates[key]).toFixed(2);
+            resultBox.textContent = `${amount} ${from} = ${converted} ${to}`;
+        } else {
+            resultBox.textContent = "تعذر الحصول على سعر الصرف حالياً.";
+        }
+    }
 }

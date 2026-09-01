@@ -18,8 +18,8 @@
         </div>
         <nav>
             <a href="#dashboard">لوحة التحكم</a>
-            <a href="#expenses">المصاريف</a>
-            <a href="#currency">تحويل العملات</a>
+            <a href="#expenses">إدخال البيانات</a>
+            <a href="#converter">تحويل العملات</a>
         </nav>
     </header>
 
@@ -30,12 +30,11 @@
             <h1>أموالك. <span>قرارات أذكى.</span></h1>
             <p>تتبع مصاريفك، أدر ميزانيتك، وافهم عاداتك المالية بكل سهولة وبذكاء.</p>
             
-            <!-- عداد المستخدمين لجذب الانتباه -->
             <div class="users-counter">
                 👥 يثق بنا أكثر من <span id="active-users">1,250</span> مستخدم فعال اليوم!
             </div>
 
-            <button class="cta-button" onclick="document.getElementById('dashboard').scrollIntoView({behavior: 'smooth'})">ابدأ إدارة أموالك الآن ✨</button>
+            <button class="cta-button" onclick="document.getElementById('expenses').scrollIntoView({behavior: 'smooth'})">ابدأ إدارة أموالك الآن ✨</button>
         </section>
 
         <!-- لوحة التحكم المالية -->
@@ -63,6 +62,58 @@
                     <div class="score-value" id="health-score">0 / 100</div>
                     <small id="health-message">أدخل بياناتك المالية لحساب المؤشر.</small>
                 </div>
+            </div>
+        </section>
+
+        <!-- قسم إدخال المصاريف والدخل -->
+        <section id="expenses" class="form-section">
+            <h2 class="dashboard-header">➕ إضافة عملية مالية</h2>
+            <form id="finance-form" class="interactive-form">
+                <div class="form-group">
+                    <label>نوع العملية:</label>
+                    <select id="type">
+                        <option value="income">دخل (Income)</option>
+                        <option value="expense">مصروف (Expense)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>المبلغ ($):</label>
+                    <input type="number" id="amount" placeholder="أدخل المبلغ..." required>
+                </div>
+                <div class="form-group">
+                    <label>الوصف / الفئة:</label>
+                    <input type="text" id="category" placeholder="مثال: راتب، طعام، مواصلات..." required>
+                </div>
+                <button type="submit" class="submit-btn">إضافة العملية 📝</button>
+            </form>
+        </section>
+
+        <!-- قسم محول العملات -->
+        <section id="converter" class="form-section">
+            <h2 class="dashboard-header">💱 تحويل العملات المباشر</h2>
+            <div class="interactive-form">
+                <div class="form-group">
+                    <label>المبلغ:</label>
+                    <input type="number" id="convert-amount" value="100">
+                </div>
+                <div class="form-group">
+                    <label>من:</label>
+                    <select id="from-currency">
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="ILS">ILS (₪)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>إلى:</label>
+                    <select id="to-currency">
+                        <option value="ILS">ILS (₪)</option>
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                    </select>
+                </div>
+                <button type="button" onclick="convertCurrency()" class="submit-btn">تحويل الآن 🔄</button>
+                <div id="convert-result" class="result-box">النتيجة ستظهر هنا</div>
             </div>
         </section>
     </main>
