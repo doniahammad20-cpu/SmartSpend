@@ -1,0 +1,201 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: radial-gradient(circle at center, #0a1f44 0%, #030d1e 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    direction: rtl;
+}
+
+header {
+    background: rgba(5, 16, 36, 0.6);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #40e0d0;
+}
+
+.developer-name {
+    font-size: 14px;
+    color: #cbd5e1;
+    font-weight: 400;
+    margin-right: 8px;
+}
+
+nav a {
+    color: #e2e8f0;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #40e0d0;
+}
+
+main {
+    flex: 1;
+    padding: 40px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.hero {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.badge {
+    display: inline-block;
+    background: rgba(64, 224, 208, 0.1);
+    color: #40e0d0;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border: 1px solid rgba(64, 224, 208, 0.2);
+}
+
+.hero h1 {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.hero h1 span {
+    background: linear-gradient(to left, #00f2fe, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #cbd5e1;
+    margin-bottom: 20px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.users-counter {
+    background: rgba(255, 255, 255, 0.05);
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 15px;
+    color: #e2e8f0;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.users-counter span {
+    color: #4ade80;
+    font-weight: 800;
+}
+
+.cta-button {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    color: #030d1e;
+    font-family: 'Cairo', sans-serif;
+    border: none;
+    padding: 14px 32px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(0, 242, 254, 0.4);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 242, 254, 0.6);
+}
+
+.dashboard-overview {
+    margin-top: 40px;
+}
+
+.dashboard-header {
+    font-size: 24px;
+    font-weight: 700;
+    color: #40e0d0;
+    border-bottom: 2px solid rgba(64, 224, 208, 0.2);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.dashboard-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.tile {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(5px);
+}
+
+.tile h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.tile.income h3 { color: #4ade80; }
+.tile.expenses h3 { color: #f87171; }
+.tile.savings h3 { color: #38bdf8; }
+.tile.health h3 { color: #c084fc; }
+
+.score-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #c084fc;
+}
+
+#health-message {
+    color: #94a3b8;
+    margin-top: 5px;
+    display: block;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #94a3b8;
+    background: rgba(3, 13, 30, 0.8);
+    margin-top: auto;
+}
