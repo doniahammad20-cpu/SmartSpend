@@ -3,78 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartSpend - إدارة الأموال الذكية</title>
+    <title>SmartSpend - إدارتك المالية أذكى</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <header>
-        <div class="logo">
-            <span>💰</span> SmartSpend
-            <span class="developer-name">| إعداد: دنيا أحمد حماد</span>
-        </div>
-        <nav>
-            <a href="#dashboard">لوحة التحكم</a>
-            <a href="#expenses">إدخال البيانات</a>
-            <a href="#converter">تحويل العملات</a>
-        </nav>
-    </header>
-
-    <main>
-        <!-- قسم الترحيب الرئيسي -->
-        <section class="hero">
-            <div class="badge">🚀 التطبيق الأسهل لإدارة ميزانيتك</div>
-            <h1>أموالك. <span>قرارات أذكى.</span></h1>
+    <div class="container">
+        <!-- الهيدر والترحيب -->
+        <header class="main-header">
+            <h1>SmartSpend</h1>
             <p>تتبع مصاريفك، أدر ميزانيتك، وافهم عاداتك المالية بكل سهولة وبذكاء.</p>
-            
-            <div class="users-counter">
-                👥 يثق بنا أكثر من <span id="active-users">1,250</span> مستخدم فعال اليوم!
-            </div>
+        </header>
 
-            <button class="cta-button" onclick="document.getElementById('expenses').scrollIntoView({behavior: 'smooth'})">ابدأ إدارة أموالك الآن ✨</button>
-        </section>
-
-        <!-- لوحة التحكم المالية -->
-        <section id="dashboard" class="dashboard-overview">
+        <!-- لوحة التحكم -->
+        <section id="dashboard" class="dashboard-section">
             <h2 class="dashboard-header">📊 لوحة التحكم المالية</h2>
-            
-            <div class="dashboard-tiles">
-                <div class="tile income">
+            <div class="metrics-grid">
+                <div class="metric-card">
                     <h3>💵 الدخل الشهري</h3>
-                    <div class="value" id="total-income">$0</div>
+                    <p id="total-income" class="metric-value">$0</p>
                 </div>
-
-                <div class="tile expenses">
+                <div class="metric-card">
                     <h3>💸 إجمالي المصاريف</h3>
-                    <div class="value" id="total-expenses">$0</div>
+                    <p id="total-expenses" class="metric-value">$0</p>
                 </div>
-
-                <div class="tile savings">
+                <div class="metric-card">
                     <h3>💰 الادخار المتوقع</h3>
-                    <div class="value" id="total-savings">$0</div>
+                    <p id="expected-savings" class="metric-value">$0</p>
                 </div>
-
-                <div class="tile health">
-                    <h3>مؤشر الصحة المالية</h3>
-                    <div class="score-value" id="health-score">0 / 100</div>
-                    <small id="health-message">أدخل بياناتك المالية لحساب المؤشر.</small>
+                <div class="metric-card">
+                    <h3>🩺 مؤشر الصحة المالية</h3>
+                    <p id="financial-health" class="metric-value">100 / 0</p>
+                    <small>أدخل بياناتك المالية لحساب المؤشر.</small>
                 </div>
             </div>
         </section>
 
-        <!-- قسم إدخال المصاريف والدخل -->
+        <!-- قسم إضافة عملية مالية -->
         <section id="expenses" class="form-section">
-            <h2 class="dashboard-header">➕ إضافة عملية مالية</h2>
+            <h2 class="dashboard-header">إضافة عملية مالية ➕</h2>
+            <form id="finance-form" class="interactive-form">
+                <div class="form-group">
+                    <label>نوع العملية:</label>
+                    <select id="type">
+                        <option value="income">دخل (Income)</option>
+                        <option value="expense">مصروف (Expense)</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label>المبلغ ($):</label>
                     <input type="number" id="amount" placeholder="أدخل المبلغ..." required>
                 </div>
                 <div class="form-group">
                     <label>الوصف / الفئة:</label>
-                    <input type="text" id="category" placeholder="مثال: راتب، طعام، مواصلات..." required>
+                    <input type="text" id="description" placeholder="مثال: راتب، طعام، مواصلات..." required>
                 </div>
                 <button type="submit" class="submit-btn">إضافة العملية 📝</button>
             </form>
@@ -82,12 +63,12 @@
 
         <!-- قسم محول العملات -->
         <section id="converter" class="form-section">
-            <h2 class="dashboard-header">💱 تحويل العملات المباشر</h2>
+            <h2 class="dashboard-header">🪪 تحويل العملات المباشر</h2>
             <div class="interactive-form">
-           <div class="form-group">
-    <label>المبلغ:</label>
-    <input type="number" id="convert-amount" placeholder="أدخل المبلغ للتحويل" value="100">
-</div>
+                <div class="form-group">
+                    <label>المبلغ:</label>
+                    <input type="number" id="convert-amount" placeholder="أدخل المبلغ للتحويل" value="5">
+                </div>
                 <div class="form-group">
                     <label>من:</label>
                     <select id="from-currency">
@@ -104,15 +85,16 @@
                         <option value="EUR">EUR (€)</option>
                     </select>
                 </div>
-                <button type="button" onclick="convertCurrency()" class="submit-btn">تحويل الآن 🔄</button>
-                <div id="convert-result" class="result-box">النتيجة ستظهر هنا</div>
+                <button type="button" id="convert-btn" class="submit-btn">تحويل الآن 🔄</button>
             </div>
+            <div id="conversion-result" class="result-box">النتيجة ستظهر هنا</div>
         </section>
-    </main>
 
-    <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026 - SmartSpend | إعداد دنيا أحمد حماد</p>
-    </footer>
+        <!-- الفوتر -->
+        <footer class="main-footer">
+            <p>جميع الحقوق محفوظة © 2026 - SmartSpend | إعداد دنيا أحمد حماد</p>
+        </footer>
+    </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
