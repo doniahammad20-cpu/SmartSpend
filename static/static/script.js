@@ -108,3 +108,28 @@ async function convertCurrency() {
         }
     }
 }
+// قسم تحويل العملات
+const convertBtn = document.getElementById('convert-btn');
+if (convertBtn) {
+    convertBtn.addEventListener('click', function() {
+        const amount = parseFloat(document.getElementById('convert-amount').value);
+        const from = document.getElementById('from-currency').value;
+        const to = document.getElementById('to-currency').value;
+        
+        const rates = {
+            'USD': 1,
+            'EUR': 0.92,
+            'ILS': 3.65
+        };
+
+        if (isNaN(amount) || amount <= 0) {
+            document.getElementById('conversion-result').innerText = 'يرجى إدخال مبلغ صحيح';
+            return;
+        }
+
+        const amountInUSD = amount / rates[from];
+        const result = amountInUSD * rates[to];
+
+        document.getElementById('conversion-result').innerText = `${amount} ${from} = ${result.toFixed(2)} ${to}`;
+    });
+}
